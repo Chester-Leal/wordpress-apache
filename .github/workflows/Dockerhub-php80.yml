@@ -1,4 +1,4 @@
-name: Build 6.1.1 wordpress image
+name: Build 6.1.3 wordpress image
 
 # on:
 #   push:
