@@ -35,7 +35,7 @@ jobs:
         with:
           context: .
           file: ./php8.0-apache-6.1.3/Dockerfile
-          builder: docker/setup-buildx-action@v1
+          builder: docker/setup-buildx-action@v2
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/wordpress:apache-6.1.3
