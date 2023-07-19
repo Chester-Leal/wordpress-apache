@@ -8,7 +8,7 @@ FROM php:8.0-apache
 
 # persistent dependencies
 RUN set -eux; \
-	apt-get update; \
+	apt-get update && apt-get install -y curl coreutils; \
 	apt-get install -y jq \
 		--no-install-recommends \
 		ghostscript; \
@@ -119,13 +119,13 @@ RUN set -eux; \
 # (replace all instances of "%h" with "%a" in LogFormat)
 	find /etc/apache2 -type f -name '*.conf' -exec sed -ri 's/([[:space:]]*LogFormat[[:space:]]+"[^"]*)%h([^"]*")/\1%a\2/g' '{}' +
 
-# Define the WordPress version and patch range
+# Define the WordPress version
 ENV WORDPRESS_VERSION=6.1
-ENV WORDPRESS_PATCH_RANGE=X
 
 # Install the latest patch version of WordPress
 RUN set -eux; \
-    latest_version=$(curl -sSL "https://api.wordpress.org/core/version-check/1.7/?version=$WORDPRESS_VERSION" | jq -r --arg patch "$WORDPRESS_PATCH_RANGE" '.offers | map(select(.version | contains($patch))) | sort_by(.version) | last | .version'); \
+    latest_version=$(curl -sSL "https://api.wordpress.org/core/version-check/1.7/" | jq -r --arg version "$WORDPRESS_VERSION" '.offers | map(select(.version | startswith($version))) | sort_by(.version) | last | .version'); \
+    latest_patch=$(echo "$latest_version" | awk -F '.' '{print $3}'); \
     sha1=$(curl -sSL "https://wordpress.org/wordpress-$latest_version.tar.gz.sha1"); \
     \
     curl -o wordpress.tar.gz -fL "https://wordpress.org/wordpress-$latest_version.tar.gz"; \
