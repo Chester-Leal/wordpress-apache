@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: ./php8.0-apache-6.5.4/Dockerfile
+          file: ./php8.2-apache-6.5.4/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           platforms: linux/386,linux/amd64,linux/arm/v5
           push: true
