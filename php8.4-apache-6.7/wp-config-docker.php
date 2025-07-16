@@ -128,11 +128,6 @@ if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
 	eval($configExtra);
 }
 
-
-//Prevent Core Updates
-define('AUTOMATIC_UPDATER_DISABLED', true);
-define( 'WP_AUTO_UPDATE_CORE', false );
-
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
